@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres
+    container_name: newsAitu
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+      POSTGRES_DB: news
+    ports:
+      - "5433:5432"
+    volumes:
+      - news:/data/postgres
+volumes:
+  news:

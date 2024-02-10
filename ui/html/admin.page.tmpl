@@ -1,0 +1,26 @@
+{{template "base" .}}
+{{define "title"}}Admin Panel{{end}}
+{{define "main"}}
+<h2>User List</h2>
+<br>
+{{if .UserList}}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>ID</th>
+    </tr>
+    {{range .UserList}}
+    <tr>
+        <td><a href='/adminShow?id={{.ID}}'>{{.Name}}</a></td>
+        <td>{{.Email}}</td>
+        <td>{{.Role}}</td>
+        <td>#{{.ID}}</td>
+    </tr>
+    {{end}}
+</table>
+{{else}}
+<p>There's nothing to see here... yet!</p>
+{{end}}
+{{end}}

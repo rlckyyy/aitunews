@@ -1,0 +1,24 @@
+{{template "base" .}}
+{{define "title"}}User #{{.User.ID}}{{end}}
+{{define "main"}}
+{{with .User}}
+<div class='news'>
+    <div class='metadata'>
+        <h2 class='news-title'>{{.Name}}</h2>
+        <span class='news-id'>#{{.ID}}</span>
+    </div>
+    <pre class='news-content'><code>{{.Role}}</code></pre>
+    <form action="/updateRole" method="post">
+        <input type="hidden" name="userID" value="{{.ID}}">
+        <label for="newRole">New Role:</label>
+        <select id="newRole" name="newRole" required>
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+        </select>
+        <button type="submit">Update Role</button>
+    </form>
+</div>
+
+{{end}}
+{{end}}

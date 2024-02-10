@@ -1,0 +1,23 @@
+{{template "base" .}}
+{{define "title"}}{{.Category}} News{{end}}
+{{define "main"}}
+<h2>{{.Category}} News</h2>
+{{if .NewsList}}
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Created</th>
+        <th>ID</th>
+    </tr>
+    {{range .NewsList}}
+    <tr>
+        <td><a href='/news?id={{.ID}}'>{{.Title}}</a></td>
+        <td>{{humanDate .Created}}</td>
+        <td>#{{.ID}}</td>
+    </tr>
+    {{end}}
+</table>
+{{else}}
+<p>No news available in the {{.Category}} category.</p>
+{{end}}
+{{end}}

@@ -1,0 +1,20 @@
+{{template "base" .}}
+{{define "title"}}Create News{{end}}
+{{define "main"}}
+<form method="post" action="/news/create">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <br>
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" rows="4" required></textarea>
+    <br>
+    <label for="category">Category:</label>
+    <select id="category" name="category">
+        <option value="Students">Students</option>
+        <option value="Staff">Staff</option>
+        <option value="Applicants">Applicants</option>
+    </select>
+    <br>
+    <button type="submit">Create News</button>
+</form>
+{{end}}
