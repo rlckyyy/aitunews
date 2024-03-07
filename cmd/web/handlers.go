@@ -39,8 +39,16 @@ func (app *application) showNews(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	comments, err := app.news.GetComments(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	userID := app.session.GetInt(r, "authenticatedUserID")
 	app.render(w, r, "show.page.tmpl", &templateData{
-		News: n,
+		News:      n,
+		Comments:  comments,
+		SessionId: userID,
 	})
 }
 
@@ -265,4 +273,63 @@ func (app *application) updateUserRoleHandler(w http.ResponseWriter, r *http.Req
 		return
 	}
 	http.Redirect(w, r, fmt.Sprintf("/adminShow?id=%s", userID), http.StatusSeeOther)
+}
+
+// comments section
+
+func (app *application) addComment(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		app.clientError(w, http.StatusMethodNotAllowed)
+		return
+	}
+	newsID, err := strconv.Atoi(r.FormValue("newsID"))
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	userID := app.session.GetInt(r, "authenticatedUserID")
+	text := r.FormValue("text")
+	err = app.comments.Insert(text, userID, newsID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	http.Redirect(w, r, fmt.Sprintf("/news?id=%d", newsID), http.StatusSeeOther)
+}
+
+func (app *application) deleteComment(w http.ResponseWriter, r *http.Request) {
+	userID := app.session.GetInt(r, "authenticatedUserID")
+	user, err := app.users.Get(userID)
+
+	commentID, err := strconv.Atoi(r.FormValue("commentID"))
+	if err != nil || commentID < 1 {
+		app.serverError(w, err)
+		return
+	}
+	newsId, err := app.comments.GetNewsId(commentID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	authorId, err := app.comments.GetAuthorId(commentID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	if user.Role != "admin" && userID != authorId {
+		app.session.Put(r, "flash", "You can only delete your own comments!")
+		http.Redirect(w, r, fmt.Sprintf("/news?id=%d", newsId), http.StatusSeeOther)
+		return
+	}
+	err = app.comments.Delete(commentID)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(w)
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
+	http.Redirect(w, r, fmt.Sprintf("/news?id=%d", newsId), http.StatusSeeOther)
 }

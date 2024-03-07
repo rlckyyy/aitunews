@@ -32,3 +32,10 @@ type News struct {
 	Created  time.Time
 	Category string
 }
+
+type Comments struct {
+	ID     int
+	UserId int
+	NewsId int
+	Text   string
+}

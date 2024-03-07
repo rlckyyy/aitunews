@@ -17,6 +17,8 @@ type templateData struct {
 	UserRole        string
 	User            *models.User
 	UserList        []*models.User
+	Comments        []*models.Comments
+	SessionId       int
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {

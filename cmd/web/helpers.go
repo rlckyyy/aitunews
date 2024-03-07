@@ -53,7 +53,6 @@ func (app *application) addDefaultData(td *templateData, r *http.Request) *templ
 		}
 		td.UserRole = user.Role
 	}
-
 	return td
 }
 func (app *application) isAuthenticated(r *http.Request) bool {

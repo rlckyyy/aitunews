@@ -19,6 +19,31 @@
         nav a{
             font-size: 17px;
         }
+        textarea {
+            padding: 10px; /* добавляем отступы вокруг текста */
+            border: 1px solid #ccc; /* задаем границу */
+            border-radius: 5px; /* закругляем углы */
+            resize: vertical; /* разрешаем вертикальное изменение размера */
+            min-height: 100px; /* минимальная высота */
+            max-width: 100%; /* максимальная ширина */
+            font-family: Arial, sans-serif; /* выбираем шрифт */
+            font-size: 16px; /* выбираем размер шрифта */
+        }
+
+        /* Стилизация кнопки */
+        button[type="submit"] {
+            padding: 10px 20px; /* добавляем отступы вокруг текста */
+            background-color: #007bff; /* цвет фона */
+            color: #fff; /* цвет текста */
+            border: none; /* убираем границу */
+            border-radius: 5px; /* закругляем углы */
+            cursor: pointer; /* меняем курсор при наведении */
+        }
+
+        /* Стилизация кнопки при наведении */
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* изменяем цвет фона */
+        }
     </style>
 </head>
 <body>

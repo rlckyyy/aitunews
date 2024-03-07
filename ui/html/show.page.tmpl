@@ -18,4 +18,32 @@
     </form>
 </div>
 {{end}}
+<br>
+
+<h1>Add Comment</h1>
+<br>
+<form action="/comment/add" method="post">
+    <input type="hidden" name="newsID" value="{{.News.ID}}">
+    <label>
+        <textarea name="text" required></textarea>
+    </label>
+    <button type="submit">Add Comment</button>
+</form>
+<br>
+
+
+<h1>Comments</h1>
+{{range .Comments}}
+<div class="comment">
+    <p>UserID: {{.UserId}}</p>
+    <p>Content: {{.Text}}</p>
+    {{if or (eq .UserId $.SessionId) (eq $.UserRole "admin")}}
+    <form method="post" action="/comment/delete" style="display: inline;">
+        <input type="hidden" name="commentID" value="{{.ID}}">
+        <button type="submit" style="color: red;">Delete</button>
+    </form>
+    {{end}}
+    <br>
+</div>
+{{end}}
 {{end}}
