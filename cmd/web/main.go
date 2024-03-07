@@ -21,6 +21,7 @@ type application struct {
 	news          *postgresql.NewsModel
 	templateCache map[string]*template.Template
 	users         *postgresql.UserModel
+	comments      *postgresql.CommentsModel
 }
 
 func main() {
@@ -53,6 +54,7 @@ func main() {
 		news:          &postgresql.NewsModel{DB: db},
 		templateCache: templateCache,
 		users:         &postgresql.UserModel{DB: db},
+		comments:      &postgresql.CommentsModel{DB: db},
 	}
 	tlsConfig := &tls.Config{
 		PreferServerCipherSuites: true,

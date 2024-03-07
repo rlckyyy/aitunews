@@ -14,7 +14,7 @@ func (app *application) routes() http.Handler {
 	mux.Get("/news", dynamicMiddleware.ThenFunc(app.showNews))
 	mux.Post("/news/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createNews))
 	mux.Get("/news/creation", dynamicMiddleware.ThenFunc(app.showCreateNewsForm))
-	mux.Del("/news/delete", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.deleteNews))
+	mux.Post("/news/delete", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.deleteNews))
 	mux.Get("/contacts", dynamicMiddleware.ThenFunc(app.showContacts))
 	mux.Get("/news/students", dynamicMiddleware.ThenFunc(app.showCategoryNews))
 	mux.Get("/news/staff", dynamicMiddleware.ThenFunc(app.showCategoryNews))
@@ -29,6 +29,9 @@ func (app *application) routes() http.Handler {
 	mux.Get("/user/login", dynamicMiddleware.ThenFunc(app.loginUserForm))
 	mux.Post("/user/login", dynamicMiddleware.ThenFunc(app.loginUser))
 	mux.Post("/user/logout", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.logoutUser))
+
+	mux.Post("/comment/add", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.addComment))
+	mux.Post("/comment/delete", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.deleteComment))
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Get("/static/", http.StripPrefix("/static", fileServer))

@@ -19,15 +19,12 @@ func (m *UserModel) Insert(name, email, password, role string) error {
 	if err != nil {
 		return err
 	}
-
 	stmt := `
 		INSERT INTO users (name, email, hashed_password, role)
 		VALUES($1, $2, $3, $4)
 		RETURNING id
 	`
-
 	row := m.DB.QueryRow(stmt, name, email, string(hashedPassword), role)
-
 	var id int
 	err = row.Scan(&id)
 	if err != nil {
@@ -38,7 +35,6 @@ func (m *UserModel) Insert(name, email, password, role string) error {
 		}
 		return err
 	}
-
 	return nil
 }
 

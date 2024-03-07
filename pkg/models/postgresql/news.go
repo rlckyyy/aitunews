@@ -3,6 +3,7 @@ package postgresql
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	_ "github.com/lib/pq"
 	"relucky.net/aitunews/pkg/models"
 )
@@ -108,6 +109,7 @@ func (m *NewsModel) GetByCategory(category string) ([]*models.News, error) {
 }
 
 func (m *NewsModel) Delete(id int) error {
+	fmt.Println("delete id", id)
 	stmt := `DELETE FROM news WHERE id = $1`
 
 	_, err := m.DB.Exec(stmt, id)
